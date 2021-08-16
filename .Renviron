@@ -1,0 +1,3 @@
+## proxy are needed to download server and drivers
+http_proxy=http://127.0.0.1:65036/
+https_proxy=http://127.0.0.1:65036/
