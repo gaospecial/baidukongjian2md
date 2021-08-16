@@ -11,3 +11,4 @@ Webdriver can be managed by the **wbman** package. In this package, we just port
 - [x] [Edge dirver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
 - [ ] [Internet Explorer driver](https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver)
 
+WebDriver 还需要与浏览器软件配套使用，例如你的 Chrome 版本是 92.0，那么你下载的 Chrome Driver 也得是 92.0 版本的。
