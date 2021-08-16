@@ -1,0 +1,15 @@
+Package: baidukongjian2md
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given = "Chun-Hui",
+           family = "Gao",
+           role = c("aut", "cre"),
+           email = "gaospecial@gmail.com",
+           comment = c(ORCID = "0000-0002-1445-7939"))
+Description: What the package does (one paragraph).
+License: GPL3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
