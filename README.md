@@ -11,3 +11,7 @@
 文章内容通过 `iframe` 嵌入到网页中，不同页面具有不同的 CSS 结构。
 
 使用一个在线的 HTML to Markdown 转换器（<https://codebeautify.org/html-to-markdown>）可以将 HTML 转换为 Markdown。
+
+## RSelenium 使用
+
+详见 `remoteDriver$new()` 了解如何构建一个新的客户端，以及这个类可用的方法。

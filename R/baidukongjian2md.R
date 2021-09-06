@@ -33,6 +33,7 @@ baidukongjian2md <- function(url = "http://wenzhang.baidu.com/"){
     remDr$navigate(real_url)
     Sys.sleep(0.5)
     content = remDr$getPageSource()[[1]]
+    # @TODO: only save div content
     file = tempfile(fileext = ".html", pattern = "Selenium")
     xfun::write_utf8(content, file)
     dplyr::tibble(
