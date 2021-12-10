@@ -1,13 +1,13 @@
 Package: baidukongjian2md
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.1
+Title: Revive your Baidu Kongjian blogs
+Version: 0.1.1
 Authors@R: 
     person(given = "Chun-Hui",
            family = "Gao",
            role = c("aut", "cre"),
            email = "gaospecial@gmail.com",
            comment = c(ORCID = "0000-0002-1445-7939"))
-Description: What the package does (one paragraph).
+Description: Get your Baidu Kongjian blogs from baiduyun, and then transform them to Markdown files.
 License: GPL3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -20,3 +20,5 @@ Imports:
     rvest,
     xfun,
     xml2
+Depends: 
+    R (>= 2.10)
