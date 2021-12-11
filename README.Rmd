@@ -30,7 +30,7 @@ You can install the development version of baidukongjian2md from [GitHub](https:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("gaospecial/baidukongjian")
+devtools::install_github("gaospecial/baidukongjian2md")
 ```
 
 ## 实现方式
@@ -62,11 +62,6 @@ devtools::install_github("gaospecial/baidukongjian")
 ```{r eval=FALSE}
 library(baidukongjian2md)
 
-## start a browser
-remDr = start_browser()
-```
-```{r include=FALSE}
-devtools::load_all()
 ## start a browser
 remDr = start_browser()
 ```
@@ -152,3 +147,59 @@ for (i in 1:nrow(main)){
 ```
 
 现在，打开 `tempdir` 所指定的文件夹，把 Markdown 文件取出来就好了。
+
+## 处理 WordPress 的博客
+
+在 @yihui 所著的 [blogdown: Creating Websites with R Markdown
+](https://bookdown.org/yihui/blogdown/) 介绍了[将 WordPress 博客内容转变为 Markdown 的方法](https://bookdown.org/yihui/blogdown/from-wordpress.html#from-wordpress)，不过这个方法目前看起来好像已经失效了。所以还是要自己动手丰衣足食。
+
+好消息是 WordPress 提供了将全部文章导出为 RSS 的功能，因此我们可以从一个 `.xml` 文件开始。
+
+```{r eval = FALSE}
+library(xml2)
+library(dplyr)
+library(rvest)
+library(lubridate)
+library(yaml)
+library(stringr)
+
+# set locale is need to parse time correctly
+if (.Platform$OS.type == "windows") {
+  Sys.setlocale("LC_TIME", "English")
+} else {
+  Sys.setlocale("LC_TIME", "en_US.UTF-8")
+}
+
+
+xml = read_xml("blog.xml")
+tmpdir = tempdir()
+
+wordpress = xml %>% html_nodes("item") %>% 
+  purrr::map(~ list(
+    title = html_node(.x, "title") %>% html_text(trim = TRUE),
+    slug = html_node(.x, "link") %>% html_text(trim = TRUE) %>%
+      str_remove_all( "https?://bio-spring.top/|/"),
+    date = html_node(.x, "pubDate") %>% 
+      html_text(trim = TRUE) %>%
+      parse_date_time(orders = "%a, %d %b %Y %T %z", 
+                      tz = "Asia/Shanghai", 
+                      locale = "English" , 
+                      exact = TRUE) %>%
+      format("%Y-%m-%d"),
+    author = html_node(.x, xpath = "dc:creator") %>% html_text(trim = TRUE),
+    tags = html_nodes(.x, "category") %>% html_text(trim = TRUE) %>% unlist(),
+    content = html_node(.x, xpath = "content:encoded") %>% html_text(trim = TRUE)
+    )
+  )
+
+success = lapply(wordpress, wordpress_blog2md)
+
+```
+
+上面也就是干了下面几件事：
+
+
+- 识别日期，生成带日期的 slug（太难了）
+- 去掉 content 里面的 related post（把插件禁用就好了）
+- 转换为 markdown（Pandoc 的转化结果并不完美）
+
